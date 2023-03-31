@@ -23,7 +23,7 @@ const addTimer = () => {
 };
 
 const startTimer = (timer) => {
-    timer.timerId = setInterval(() => {
+    timer.timerId = setTimeout(function run() {
         if (timer.seconds < 60) {
             ++timer.seconds;
         } else if (timer.minutes < 60) {
@@ -34,13 +34,15 @@ const startTimer = (timer) => {
             timer.minutes = 0;
             ++timer.hours;
         }
+
+        timer.timerId = setTimeout(run, 1000);
     }, 1000);
 
     timer.paused = false;
 };
 
 const resetTimer = (timer) => {
-    clearInterval(timer.timerId);
+    clearTimeout(timer.timerId);
 
     timer.seconds = 0;
     timer.minutes = 0;
@@ -50,7 +52,7 @@ const resetTimer = (timer) => {
 };
 
 const stopTimer = (timer) => {
-    clearInterval(timer.timerId);
+    clearTimeout(timer.timerId);
 
     timer.paused = true;
 };
